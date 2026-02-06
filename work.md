@@ -1,53 +1,294 @@
-Phase IV: Local Kubernetes Deployment (Minikube, Helm 
-Charts, kubectl-ai, Kagent, Docker Desktop, and Gordon) 
-Cloud Native Todo Chatbot with Basic Level Functionality 
-Objective: Deploy the Todo Chatbot on a local Kubernetes cluster using Minikube, Helm 
-Charts. 
-Requirements 
-• Containerize frontend and backend applications (Use Gordon) 
-• Use Docker AI Agent (Gordon) for AI-assisted Docker operations 
-• Create Helm charts for deployment (Use kubectl-ai and/or kagent to generate) 
-• Use kubectl-ai and kagent for AI-assisted Kubernetes operations 
-• Deploy on Minikube locally 
-Note: If Docker AI (Gordon) is unavailable in your region or tier, use standard Docker CLI 
-commands or ask Claude Code to generate the docker run commands for you. 
-Technology Stack 
-Component 
-Technology 
-Containerization 
-Docker AI 
-Orchestration 
-Package Manager 
-Docker (Docker Desktop) 
-Docker AI Agent (Gordon) 
-Kubernetes (Minikube) 
-Helm Charts 
-AI DevOps 
-Application 
-AIOps 
-kubectl-ai, and Kagent 
-Phase III Todo Chatbot 
-Use Docker AI Agent (Gordon) for intelligent Docker operations: 
-# To know its capabilities 
-docker ai "What can you do?" 
-Enable Gordon: Install latest Docker Desktop 4.53+, go to Settings > Beta features, and 
-toggle it on. 
-Use kubectl-ai, and Kagent for intelligent Kubernetes operations: 
-# Using kubectl-ai 
-kubectl-ai "deploy the todo frontend with 2 replicas" 
-kubectl-ai "scale the backend to handle more load" 
-kubectl-ai "check why the pods are failing" 
-# Using kagent 
-kagent "analyze the cluster health" 
-kagent "optimize resource allocation" 
-Starting with kubectl-ai will make you feel empowered from day one. Layer in Kagent for 
-advanced use cases. Pair them with Minikube for zero-cost learning and work. 
-Research Note: Using Blueprints for Spec-Driven Deployment 
-Can Spec-Driven Development be used for infrastructure automation, and how we may need 
-to use blueprints powered by Claude Code Agent Skills. 
-Page 22 of 38 
-Hackathon II: Spec-Driven Development 
-1. Is Spec-Driven Development Key for Infrastructure Automation? 
-2. ChatGPT Progressive Learning Conversation 
-3. Spec-Driven Cloud-Native Architecture: Governing AI Agents for Managed Services 
-with Claude Code and SpecKit
+name	description
+skill-creator-pro
+Creates production-grade, reusable skills that extend Claude's capabilities. This skill should be used when users want to create a new skill, improve an existing skill, or build domain-specific intelligence. Gathers context from codebase, conversation, and authentic sources before creating adaptable skills.
+Skill Creator Pro
+Create production-grade skills that extend Claude's capabilities.
+
+How This Skill Works
+User: "Create a skill for X"
+       ↓
+Claude Code uses this meta-skill as guidance
+       ↓
+Follow Domain Discovery → Ask user clarifying questions → Create skill
+       ↓
+Generated skill with embedded domain expertise
+This skill provides guidance and structure for creating skills. Claude Code:
+
+Uses this skill's framework to discover domain knowledge
+Asks user for clarifications about THEIR specific requirements
+Decides how to structure the generated skill based on domain needs
+What This Skill Does
+Guides creation of new skills from scratch
+Helps improve existing skills to production quality
+Provides patterns for 5 skill types (Builder, Guide, Automation, Analyzer, Validator)
+Ensures skills encode procedural knowledge + domain expertise
+What This Skill Does NOT Do
+Handle skill versioning/updates after creation
+Create requirement-specific skills (always create reusable intelligence)
+Deploy skills to production (but DOES require local testing before delivery)
+Domain Discovery Framework
+Key Principle: Users want domain expertise IN the skill. They may not BE domain experts.
+
+Phase 1: Automatic Discovery (No User Input)
+Proactively research the domain before asking anything:
+
+Discover	How	Example: "Kafka integration"
+Core concepts	Official docs, Context7	Producers, consumers, topics, partitions
+Standards/compliance	Search "[domain] standards"	Kafka security, exactly-once semantics
+Best practices	Search "[domain] best practices 2025"	Partitioning strategies, consumer groups
+Anti-patterns	Search "[domain] common mistakes"	Too many partitions, no monitoring
+Security	Search "[domain] security"	SASL, SSL, ACLs, encryption
+Ecosystem	Search "[domain] ecosystem tools"	Confluent, Schema Registry, Connect
+Sources priority: Official docs → Library docs (Context7) → GitHub → Community → WebSearch
+
+Phase 2: Knowledge Sufficiency Check
+Before asking user anything, verify internally:
+
+- [ ] Core concepts understood?
+- [ ] Best practices identified?
+- [ ] Anti-patterns known?
+- [ ] Security considerations covered?
+- [ ] Official sources found?
+
+If ANY gap → Research more (don't ask user for domain knowledge)
+Only if CANNOT discover (proprietary/internal) → Ask user
+Phase 3: User Requirements (NOT Domain Knowledge)
+Only ask about user's SPECIFIC context:
+
+Ask	Don't Ask
+"What's YOUR use case?"	"What is Kafka?"
+"What's YOUR tech stack?"	"What options exist?"
+"Any existing resources?"	"How does it work?"
+"Specific constraints?"	"What are best practices?"
+The skill contains domain expertise. User provides requirements.
+
+Required Clarifications
+Ask about SKILL METADATA and USER REQUIREMENTS (not domain knowledge):
+
+Skill Metadata
+1. Skill Type - "What type of skill?"
+
+Type	Purpose	Example
+Builder	Create artifacts	Widgets, code, documents
+Guide	Provide instructions	How-to, tutorials
+Automation	Execute workflows	File processing, deployments
+Analyzer	Extract insights	Code review, data analysis
+Validator	Enforce quality	Compliance checks, scoring
+2. Domain - "What domain or technology?"
+
+User Requirements (After Domain Discovery)
+3. Use Case - "What's YOUR specific use case?"
+
+Not "what can it do" but "what do YOU need"
+4. Tech Stack - "What's YOUR environment?"
+
+Languages, frameworks, existing infrastructure
+5. Existing Resources - "Any scripts, templates, configs to include?"
+
+6. Constraints - "Any specific requirements or limitations?"
+
+Performance, security, compliance specific to user's context
+Note
+Questions 1-2: Ask immediately
+Domain Discovery: Research automatically after knowing domain
+Questions 3-6: Ask after discovery, informed by domain knowledge
+Question pacing: Avoid asking too many questions in a single message. Start with most important, follow up as needed.
+Core Principles
+Reusable Intelligence, Not Requirement-Specific
+Skills must handle VARIATIONS, not single requirements:
+
+❌ Bad: "Create bar chart with sales data using Recharts"
+✅ Good: "Create visualizations - adaptable to data shape, chart type, library"
+
+❌ Bad: "Deploy to AWS EKS with Helm"
+✅ Good: "Deploy applications - adaptable to platform, orchestration, environment"
+Identify what VARIES vs what's CONSTANT in the domain. See references/reusability-patterns.md.
+
+Concise is Key
+Context window is a public good (~1,500+ tokens per skill activation). Challenge each piece:
+
+"Does Claude really need this explanation?"
+"Does this paragraph justify its token cost?"
+Prefer concise examples over verbose explanations.
+
+Appropriate Freedom
+Match specificity to task fragility:
+
+Freedom Level	When to Use	Example
+High	Multiple approaches valid	"Choose your preferred style"
+Medium	Preferred pattern exists	Pseudocode with parameters
+Low	Operations are fragile	Exact scripts, few parameters
+Progressive Disclosure
+Three-level loading system:
+
+Metadata (~100 tokens) - Always in context (description ≤1024 chars)
+SKILL.md body (<500 lines) - When skill triggers
+References (unlimited) - Loaded as needed by Claude
+Anatomy of a Skill
+Generated skills are zero-shot domain experts with embedded knowledge.
+
+skill-name/
+├── SKILL.md (required)
+│   ├── YAML frontmatter (name, description, allowed-tools?, model?)
+│   └── Procedural knowledge (workflows, steps, decision trees)
+└── Bundled Resources
+    ├── references/   - Domain expertise (structure based on domain needs)
+    ├── scripts/      - Executable code (tested, reliable)
+    └── assets/       - Templates, boilerplate, images
+SKILL.md Requirements
+Component	Requirement
+Line count	<500 lines (extract to references/)
+Frontmatter	See references/skill-patterns.md for complete spec
+name	Lowercase, numbers, hyphens; ≤64 chars; match directory
+description	[What] + [When]; ≤1024 chars; third-person style
+Description style	"This skill should be used when..." (not "Use when...")
+Form	Imperative ("Do X" not "You should X")
+Scope	What it does AND does not do
+What Goes in references/
+Embed domain knowledge gathered during discovery:
+
+Gathered Knowledge	Purpose in Skill
+Library/API documentation	Enable correct implementation
+Best practices	Guide quality decisions
+Code examples	Provide reference patterns
+Anti-patterns	Prevent common mistakes
+Domain-specific details	Support edge cases
+Structure references/ based on what the domain needs.
+
+Large files: If references >10k words, include grep search patterns in SKILL.md for efficient discovery.
+
+When to Generate scripts/
+Generate scripts when domain requires deterministic, executable procedures:
+
+Domain Need	Example Scripts
+Setup/installation	Install dependencies, initialize project
+Processing	Transform data, process files
+Validation	Check compliance, verify output
+Deployment	Deploy services, configure infrastructure
+Decision: If procedure is complex, error-prone, or needs to be exactly repeatable → create script. Otherwise → document in SKILL.md or references/.
+
+When to Generate assets/
+Generate assets when domain requires exact templates or boilerplate:
+
+Domain Need	Example Assets
+Starting templates	HTML boilerplate, component scaffolds
+Configuration files	Config templates, schema definitions
+Code boilerplate	Base classes, starter code
+What NOT to Include
+README.md (SKILL.md IS the readme)
+CHANGELOG.md
+LICENSE (inherited from repo)
+Duplicate information
+What Generated Skill Does at Runtime
+User invokes skill → Gather context from:
+  1. Codebase (if existing project)
+  2. Conversation (user's requirements)
+  3. Own references/ (embedded domain expertise)
+  4. User-specific guidelines
+→ Ensure all information gathered → Implement ZERO-SHOT
+Include in Generated Skills
+Every generated skill should include:
+
+## Before Implementation
+
+Gather context to ensure successful implementation:
+
+| Source | Gather |
+|--------|--------|
+| **Codebase** | Existing structure, patterns, conventions to integrate with |
+| **Conversation** | User's specific requirements, constraints, preferences |
+| **Skill References** | Domain patterns from `references/` (library docs, best practices, examples) |
+| **User Guidelines** | Project-specific conventions, team standards |
+
+Ensure all required context is gathered before implementing.
+Only ask user for THEIR specific requirements (domain expertise is in this skill).
+Type-Aware Creation
+After determining skill type, follow type-specific patterns:
+
+Type	Key Sections	Reference
+Builder	Clarifications → Output Spec → Standards → Checklist	skill-patterns.md#builder
+Guide	Workflow → Examples → Official Docs	skill-patterns.md#guide
+Automation	Scripts → Dependencies → Error Handling	skill-patterns.md#automation
+Analyzer	Scope → Criteria → Output Format	skill-patterns.md#analyzer
+Validator	Criteria → Scoring → Thresholds → Remediation	skill-patterns.md#validator
+Skill Creation Process
+Metadata → Discovery → Requirements → Analyze → Embed → Structure → Implement → Validate
+See references/creation-workflow.md for detailed steps.
+
+Quick Steps
+Metadata: Ask skill type + domain (Questions 1-2)
+Discovery: Research domain automatically (Phase 1-2 above)
+Requirements: Ask user's specific needs (Questions 3-6)
+Analyze: Identify procedural (HOW) + domain (WHAT) knowledge
+Embed: Put gathered domain expertise into references/
+Structure: Initialize skill directory
+Implement: Write SKILL.md + resources following type patterns
+Validate: Run scripts/package_skill.py and test
+SKILL.md Template
+---
+name: skill-name                    # lowercase, hyphens, ≤64 chars
+description: |                      # ≤1024 chars
+  [What] Capability statement.
+  [When] Use when users ask to <triggers>.
+allowed-tools: Read, Grep, Glob     # optional: restrict tools
+---
+See references/skill-patterns.md for complete frontmatter spec and body patterns.
+
+Output Checklist
+Before delivering a skill, verify:
+
+Domain Discovery Complete
+ Core concepts discovered and understood
+ Best practices identified from authentic sources
+ Anti-patterns documented
+ Security considerations covered
+ Official documentation linked
+ User was NOT asked for domain knowledge
+Frontmatter
+ name: lowercase, hyphens, ≤64 chars, matches directory
+ description: [What]+[When], ≤1024 chars, clear triggers
+ allowed-tools: Set if restricted access needed
+Structure
+ SKILL.md <500 lines
+ Progressive disclosure (details in references/)
+Design Principles (see references/design-principles.md)
+ Modular (one skill = one responsibility)
+ Clear (explicit > clever)
+ Simple (minimal complexity)
+ Transparent (inspectable, debuggable)
+Knowledge Coverage
+ Procedural (HOW): Workflows, decision trees, error handling
+ Domain (WHAT): Concepts, best practices, anti-patterns
+Zero-Shot Implementation (in generated skill)
+ Includes "Before Implementation" section
+ Gathers runtime context (codebase, conversation, user guidelines)
+ Domain expertise embedded in references/ (structured per domain needs)
+ Only asks user for THEIR requirements (not domain knowledge)
+Reusability
+ Handles variations (not requirement-specific)
+ Clarifications capture variable elements (user's context)
+ Constants encoded (domain patterns, best practices)
+Type-Specific (see references/skill-patterns.md)
+ Builder: Clarifications, output spec, standards, checklist
+ Guide: Workflow, examples, official docs
+ Automation: Scripts, dependencies, error handling
+ Analyzer: Scope, criteria, output format
+ Validator: Criteria, scoring, thresholds, remediation
+Battle Testing (REQUIRED)
+ Deployment tested: make test or equivalent passes
+ Versions verified: Latest tool versions, no deprecated APIs
+ Real scenario tested: Skill answers domain questions, not just deploys tools
+ Assets executed: Every file in assets/ was actually run
+ No over-engineering: Uses native tools (Helm, kubectl), not Python wrappers
+See references/validation-checklist.md for detailed validation process.
+
+Reference Files
+File	When to Read
+references/design-principles.md	Unix philosophy applied to skill design (foundational)
+references/creation-workflow.md	Detailed step-by-step creation process
+references/skill-patterns.md	Frontmatter spec, type-specific patterns, assets guidance
+references/reusability-patterns.md	Procedural+domain knowledge, varies vs constant
+references/quality-patterns.md	Clarifications, enforcement, checklists
+references/technical-patterns.md	Error handling, security, dependencies
+references/workflows.md	Sequential and conditional workflow patterns
+references/output-patterns.md	Template and example patterns
